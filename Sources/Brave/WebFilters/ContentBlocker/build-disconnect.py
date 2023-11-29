@@ -19,7 +19,7 @@ def url_filter(resource):
 
 
 def unless_domain(properties):
-    return ["*" + domain for domain in properties]
+    return [f"*{domain}" for domain in properties]
 
 
 def create_blocklist_entry(resource, properties):
@@ -123,9 +123,8 @@ def generate_blacklists(blacklist="shavar-prod-lists/disconnect-blacklist.json",
 def format_one_rule_per_line():
     for category in categories:
         name = output_filename(category)
-        file = open(name)
-        line = file.read()
-        file.close()
+        with open(name) as file:
+            line = file.read()
         line = line.replace('{"action"', '\n{"action"')
         with open(name, "w") as fp:
             fp.write(line)

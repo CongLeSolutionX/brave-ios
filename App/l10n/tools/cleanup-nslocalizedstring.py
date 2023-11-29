@@ -36,29 +36,25 @@ def replacement_string(key, table_name, value, comment, file):
       duplicate[key] = [file,keyDict[key]]
   else:
     keyDict[key] = file
-  content = 'NSLocalizedString("' + pascal_case(key) + '"'
+  content = f'NSLocalizedString("{pascal_case(key)}"'
 
   if table_name:
-    content += ', tableName: "' + table_name + '"'
+    content += f', tableName: "{table_name}"'
 
-  content += ', value: "' + value + '"'
+  content += f', value: "{value}"'
 
-  content += ', comment: "' + comment + '")'
-  
+  content += f', comment: "{comment}")'
+
   return content
 
 def parent_directory(path):
   norm_path = os.path.normpath(path)
   path_components = norm_path.split(os.sep)
-  directory = path_components[0]
-  return directory
+  return path_components[0]
 
 def should_skip_path(path):
   directory = parent_directory(path)
-  if directory in blacklisted_parent_directories:
-    return True
-
-  return False
+  return directory in blacklisted_parent_directories
 
 keyDict = {}
 duplicate = {}
